@@ -26,7 +26,7 @@ app.use('/', router);
 var tableController = require(path.join(__dirname + '/controllers/tableController.js'));
 
 router.get('/', function(req, res){
-  res.sendFile(path.join(__dirname + '/views/index.html'));
+  res.sendFile(path.join(__dirname + '/public/views/index.html'));
   //__dirname : It will resolve to your project folder.
 });
 
