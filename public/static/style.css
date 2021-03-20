@@ -1,0 +1,127 @@
+body{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.main {
+    width: fit-content;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.header > h1 {
+    text-align: center;
+    letter-spacing: 0.5rem;
+}
+
+.game-form,
+.input {
+    display: flex;
+}
+
+.game-form {
+    justify-content: space-between;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.input {
+    margin-bottom: 0.5rem;
+    align-items: center;
+}
+.input > label {
+    width: 25rem;
+}
+.input > input {
+    width: 5rem;
+    height: 2rem;
+    text-align: center;
+}
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem 2rem;
+    align-items: center;
+}
+
+.hidden {
+    display: none;
+}
+
+.game-container > h2 {
+    margin-bottom: 0.5rem;
+}
+#flags {
+    color: blue;
+    font-weight: bold;
+}
+
+.game {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: grey;
+    margin-bottom: 0.5rem;
+}
+
+.game div {
+    height: 4rem;
+    width: 4rem;
+    box-sizing: border-box;
+    border: 1px solid black;
+}
+
+.marked {
+    background-color: lightgray;
+    font-size: 3rem;
+    text-align: center;
+    line-height: 4rem;
+}
+
+.flag {
+    font-size: 2rem;
+    text-align: center;
+    line-height: 4rem;
+}
+
+.back-red {
+    background-color: red !important;
+}
+
+.back-green {
+    background-color: green !important;
+}
+
+.result {
+    font-size: 2.5vw;
+    font-weight: bold;
+    text-align: center;
+    padding: 1rem 0rem;
+}
+
+.number-blue {
+    color: blue;
+}
+
+.number-green {
+    color: green;
+}
+
+.number-red {
+    color: red;
+}
+
+.number-darkblue {
+    color: darkblue;
+}
+
+.number-darkred {
+    color: darkred;
+}
+
+.number-black {
+    color: black;
+}

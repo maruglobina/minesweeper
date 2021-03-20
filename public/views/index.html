@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minesweeper</title>
+    <link rel="stylesheet" href="static/normalize.css">
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <div class="main">
+        <div class="header">
+            <h1>Minesweeper</h1>
+                <form action="/table" method="POST" class="game-form">
+                    <div class="input">
+                        <label for="size">Size (min 6, max 20): </label>
+                        <input id="size" name="size" type="number" min="6" max="20" value="10">
+                    </div>
+                    <div class="input">
+                        <label for="bombs">Bombs number (min 1, max: Size x Size): </label>
+                        <input id="bombs" name="bombs" type="number" min="1" value="20">
+                    </div>
+                    <input type="submit" />
+                </form>
+        </div>
+    </div>
+</body>
+</html>
