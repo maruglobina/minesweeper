@@ -1,13 +1,8 @@
 const path = require('path');
-
-var size = 0;
-var bombs = 0;
+const ejs = require('ejs');
 
 exports.new_game = function(req, res, next) {
-    size = req.body.size;
-    bombs = req.body.bombs;
-
-    //app.locals({ size: req.size, bombs: req.bombs });
-    //drawTable();
-    res.render(path.join('../views/table.html'));
+    var width = req.body.size;
+    var bombs = req.body.bombs;
+    res.render(path.join('../public/views/table.html'), {width: width, bombs: bombs});
 };
