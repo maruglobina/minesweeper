@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minesweeper</title>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.92.0.min.js"></script>
+    <script type="text/javascript">
+        // Configure AWS SDK for JavaScript & set region and credentials
+        // Initialize the Amazon Cognito credentials provider
+        AWS.config.region = 'us-west-2'; // Region
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+            IdentityPoolId: 'us-east-2:9f433646-4a49-4f51-8181-b18d4e1bef61',
+         });
+    </script>
+</head>
+<body>
+    <div><h1>WELCOME TO MINESWEEPER</h1></div>
+    <a href="/home">Start the game</a>
+</body>
+</html>

@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById("playAgain").addEventListener("click", startGame);
     document.getElementById("startAgain").addEventListener("click", function(){document.location.href="/";});
+    document.getElementById("saveGame").addEventListener("click", saveGame);
 
     function drawNumbers() {
         for (let i=0; i < cells.length; i++) {
@@ -24,19 +25,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (cells[i].classList.contains('nothing')) {
                 if (i > 0 && !isLeftSide && cells[i-1].classList.contains('bomb')) total++;
-                
                 if (i < (width*width-1) && !isRightSide && cells[i+1].classList.contains('bomb')) total++;
-
                 if (i > width && cells[i-width].classList.contains('bomb')) total++;
-                
                 if (i > (width-1) && !isRightSide && cells[i+1-width].classList.contains('bomb')) total++;
-                
                 if (i > width && !isLeftSide && cells[i-1-width].classList.contains('bomb')) total++;
-
                 if (i < (width*(width-1)) && cells[i+width].classList.contains('bomb')) total++;
-
                 if (i < (width*(width-1)) && !isRightSide && cells[i+1+width].classList.contains('bomb')) total++;
-                
                 if (i < (width*(width-1)) && !isLeftSide && cells[i-1+width].classList.contains('bomb')) total++;
 
                 cells[i].setAttribute('data', total);
@@ -52,21 +46,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         setTimeout(() => {
             if (cellId > 0 && !isLeftSide) click(cells[cellId-1]);
-                    
             if (cellId < (width*width-2) && !isRightSide) click(cells[cellId+1]);
-
             if (cellId >= width) click(cells[cellId-width]);
-            
             if (cellId > (width-1) && !isRightSide) click(cells[cellId+1-width]);
-            
             if (cellId > (width+1) && !isLeftSide) click(cells[cellId-1-width]);
-
             if (cellId < (width*(width-1))) click(cells[cellId+width]);
-
             if (cellId < (width*width-width-2) && !isRightSide) click(cells[cellId+1+width]);
-            
             if (cellId < (width*width-width) && !isLeftSide) click(cells[cellId-1+width]);
-
         }, 10);
     }
 
@@ -219,6 +205,27 @@ document.addEventListener('DOMContentLoaded', () => {
         updateFlags();
     }
 
+    function retrieveCellEvents(){
+        let w = parseInt(document.getElementById("width").value);
+
+        for(let i=0; i < w*w; i++) {
+            const cell = document.getElementById(i);
+            
+            cell.addEventListener('click', () => {
+                click(event.target);
+            });
+
+            cell.oncontextmenu = function(event) {
+                event.preventDefault();
+                putFlag(cell);
+            }
+
+            cell.addEventListener('dblclick', () => {
+                doubleClick(event.target);
+            });
+        }
+    }
+
     function resetGame(){
         game.innerHTML = "";
         result.innerHTML = "";
@@ -227,4 +234,35 @@ document.addEventListener('DOMContentLoaded', () => {
         isGameOver = false;
         flags = 0;
     }
+
+    function saveGame(){
+        var data = gameContainer.innerHTML;
+        var saveGame = document.getElementById("saveGame");
+        saveGame.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(data);
+        saveGame.download = 'minesweeper - '+ Date.now() +'txt';
+        alert("Your game was saved successfully!");
+    }
+
+    function handleFileSelect(evt) {
+        var files = evt.target.files; // FileList object
+    
+        // Loop through the FileList and render image files as thumbnails.
+        for (var i = 0, f; f = files[i]; i++) {
+          var reader = new FileReader();
+    
+          // Closure to capture the file information.
+          reader.onload = (function(theFile) {
+            return function(e) {
+              gameContainer.innerHTML = "";
+              gameContainer.innerHTML = e.target.result;
+              alert("You can continue your game!");
+            };
+          })(f);
+    
+          reader.readAsText(f);
+          retrieveCellEvents();
+        }
+      }
+    
+      document.getElementById('files').addEventListener('change', handleFileSelect, false);
 });

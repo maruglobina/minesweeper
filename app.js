@@ -19,44 +19,20 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 const router = express.Router();
-//add the router
+
 app.use('/', router);
 
-//controllers
 var tableController = require(path.join(__dirname + '/controllers/tableController.js'));
 
 router.get('/', function(req, res){
-  res.sendFile(path.join(__dirname + '/public/views/index.html'));
-  //__dirname : It will resolve to your project folder.
+  res.sendFile(path.join(__dirname + '/index.html'));
 });
 
-
-/*router.post('/table', function(req, res){
-  var size = req.body.size;
-  var bombs = req.body.bombs;
-
-  res.render(path.join(__dirname + '/views/table.html'), {
-    size: size,
-    bombs: bombs,
-  });
-
-  res.end();
-});*/
+router.get('/home', function(req, res){
+  res.sendFile(path.join(__dirname + '/public/views/home.html'));
+});
 
 router.post('/table', tableController.new_game);
-
-/*router.post('/table', 
-    function(req, res, next){ 
-      console.log('size ' + req.body.size);
-      //var size = size;
-      //var bombs = bombs;
-      next()
-    },
-    tableController.new_game
-);*/
-
-
-
 
 app.listen(port, hostname, () => {
   console.log(`El servidor se está ejecutando en http://${hostname}:${port}/`);
