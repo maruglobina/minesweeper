@@ -13,9 +13,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     startGame();
 
-    document.getElementById("playAgain").addEventListener("click", startGame);
-    document.getElementById("startAgain").addEventListener("click", function(){document.location.href="/";});
-    document.getElementById("saveGame").addEventListener("click", saveGame);
+    function configButtons(){
+        document.getElementById("playAgain").addEventListener("click", startGame);
+        document.getElementById("startAgain").addEventListener("click", function(){document.location.href="/";});
+        document.getElementById("saveGame").addEventListener("click", saveGame);
+    }
 
     //esta es la funcion que se dedica a poner los numeros en las celdas. hasta ahora solo sabemos que son celdas
     //sin bombas
@@ -74,16 +76,17 @@ document.addEventListener('DOMContentLoaded', () => {
     function showBomb(clickedCell) {
         isGameOver = true;
         clickedCell.classList.add('back-red');
+    }
 
-        //pero tambien tenemos que mostrar donde estan todas las otras bombas, para eso buscamos las que tienen la clase bomb
-        cells.forEach((cell, index, array) => {
-            if (cell.classList.contains('bomb')) {
-                cell.innerHTML = '💣';
-                cell.classList.remove('bomb');
-                cell.classList.add('marked');
-            }
+    function showAllBombs(){
+        let bombsCells = document.getElementsByClassName("bomb");
+
+        Array.from(bombsCells).forEach((element) => {
+            element.innerHTML = '💣';
+            element.classList.remove('bomb');
+            element.classList.add('marked');
         });
-
+            
         //le mostramos al jugador que es un perdedor jajaj
         result.textContent = "You're a loser";
     }
@@ -141,6 +144,8 @@ document.addEventListener('DOMContentLoaded', () => {
         //si hay bomba, mostramos que perdio
         if (cell.classList.contains('bomb')) {
             showBomb(cell);
+            //pero tambien tenemos que mostrar donde estan todas las otras bombas, para eso buscamos las que tienen la clase bomb
+            showAllBombs();
         } else {
             //pero si no la hay, la marcamos y mostramos el numero
             let total = cell.getAttribute('data');
@@ -221,6 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         drawNumbers();
         updateFlags();
+        configButtons();
     }
 
     //esta funcion es necesaria para la logica de recuperar la partida.
@@ -263,24 +269,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //recupero de la partida, se carga el html y se insertan los eventos de las celdas.
     function handleFileSelect(evt) {
-        var files = evt.target.files; // FileList object
+        var file = evt.target.files[0]; // FileList object
     
-        // Loop through the FileList and render image files as thumbnails.
-        for (var i = 0, f; f = files[i]; i++) {
           var reader = new FileReader();
+
+          reader.onerror = () => {
+            reader.abort();
+            failedFileRead();
+          };
     
           // Closure to capture the file information.
           reader.onload = (function(theFile) {
             return function(e) {
-              gameContainer.innerHTML = "";
-              gameContainer.innerHTML = e.target.result;
-              alert("You can continue your game!");
+              successFileRead(e.target.result);
             };
-          })(f);
+          })(file);
     
-          reader.readAsText(f);
-          retrieveCellEvents();
-        }
+          reader.readAsText(file);
+      }
+
+      function successFileRead(result){
+        gameContainer.innerHTML = "";
+        gameContainer.innerHTML = result;
+        retrieveCellEvents();
+        configButtons();
+        alert("You can continue your game!");
+      }
+
+
+      function failedFileRead(){
+        new DOMException("Problem parsing input file.")
       }
     
       document.getElementById('files').addEventListener('change', handleFileSelect, false);
